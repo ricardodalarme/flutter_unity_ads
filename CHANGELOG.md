@@ -1,3 +1,8 @@
+## 0.3.28
+
+* Updated to latest Unity Ads SDK (v4.16.3)
+* Fixed an issue where video ad listeners sometimes did not work on iOS and Android due to premature listener deallocation
+
 ## 0.3.27
 
 * Updated to latest Unity Ads SDK (v4.16.1)

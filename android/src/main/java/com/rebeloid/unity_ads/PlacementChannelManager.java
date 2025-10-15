@@ -8,11 +8,33 @@ import io.flutter.plugin.common.MethodChannel;
 
 public class PlacementChannelManager {
     private final Map<String, MethodChannel> placementChannels;
+    private final Map<String, UnityAdsLoadListener> loadListeners;
+    private final Map<String, UnityAdsShowListener> showListeners;
     private final BinaryMessenger binaryMessenger;
 
     public PlacementChannelManager(BinaryMessenger binaryMessenger) {
         this.placementChannels = new HashMap<>();
+        this.loadListeners = new HashMap<>();
+        this.showListeners = new HashMap<>();
         this.binaryMessenger = binaryMessenger;
+    }
+
+    public UnityAdsLoadListener getOrCreateLoadListener(String placementId) {
+        UnityAdsLoadListener listener = loadListeners.get(placementId);
+        if (listener == null) {
+            listener = new UnityAdsLoadListener(this);
+            loadListeners.put(placementId, listener);
+        }
+        return listener;
+    }
+
+    public UnityAdsShowListener getOrCreateShowListener(String placementId) {
+        UnityAdsShowListener listener = showListeners.get(placementId);
+        if (listener == null) {
+            listener = new UnityAdsShowListener(this);
+            showListeners.put(placementId, listener);
+        }
+        return listener;
     }
 
     public void invokeMethod(String methodName, String adUnitId) {

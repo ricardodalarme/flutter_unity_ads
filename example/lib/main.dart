@@ -112,6 +112,7 @@ class _UnityAdsExampleState extends State<_UnityAdsExample> {
   }
 
   void _loadAd(String placementId) {
+    print('Loading $placementId');
     UnityAds.load(
       placementId: placementId,
       onComplete: (placementId) {

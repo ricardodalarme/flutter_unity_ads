@@ -46,7 +46,8 @@ public class SwiftUnityAdsPlugin: NSObject, FlutterPlugin {
     
     static func load(_ args: NSDictionary, placementChannelManager: PlacementChannelManager) -> Bool {
         let placementId = args[UnityAdsConstants.PLACEMENT_ID_PARAMETER] as! String
-        UnityAds.load(placementId, loadDelegate: UnityAdsLoadListener(placementChannelManager: placementChannelManager))
+        let loadListener = placementChannelManager.getOrCreateLoadListener(placementId: placementId)
+        UnityAds.load(placementId, loadDelegate: loadListener)
         return true
     }
     
@@ -59,7 +60,8 @@ public class SwiftUnityAdsPlugin: NSObject, FlutterPlugin {
             playerMetaData.commit()
         }
         let presentingVC = topMostViewController()
-        UnityAds.show(presentingVC, placementId: placementId, showDelegate: UnityAdsShowListener(placementChannelManager: placementChannelManager))
+        let showListener = placementChannelManager.getOrCreateShowListener(placementId: placementId)
+        UnityAds.show(presentingVC, placementId: placementId, showDelegate: showListener)
         return true
     }
 

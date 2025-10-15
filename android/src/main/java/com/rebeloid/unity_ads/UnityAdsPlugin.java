@@ -134,7 +134,8 @@ public class UnityAdsPlugin implements FlutterPlugin, MethodCallHandler, Activit
     private boolean load(Map<?, ?> args) {
         final String placementId = (String) args.get(PLACEMENT_ID_PARAMETER);
         try {
-            UnityAds.load(placementId, new UnityAdsLoadListener(placementChannelManager));
+            UnityAdsLoadListener loadListener = placementChannelManager.getOrCreateLoadListener(placementId);
+            UnityAds.load(placementId, loadListener);
             return true;
         } catch (Exception ex) {
             Log.e(TAG, "Exception occurs during loading ad: " + placementId, ex);
@@ -153,7 +154,8 @@ public class UnityAdsPlugin implements FlutterPlugin, MethodCallHandler, Activit
             playerMetaData.commit();
         }
         try {
-            UnityAds.show(activity, placementId, new UnityAdsShowListener(placementChannelManager));
+            UnityAdsShowListener showListener = placementChannelManager.getOrCreateShowListener(placementId);
+            UnityAds.show(activity, placementId, showListener);
             return true;
         } catch (Exception ex) {
             Log.e(TAG, "Exception occurs during loading ad: " + placementId, ex);

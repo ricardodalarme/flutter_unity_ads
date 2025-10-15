@@ -2,13 +2,33 @@ import Flutter
 import UnityAds
 
 public class PlacementChannelManager {
-    
-    var placementChannels: [String: FlutterMethodChannel];
+
+    var placementChannels: [String: FlutterMethodChannel]
+    var loadListeners: [String: UnityAdsLoadListener] = [:]
+    var showListeners: [String: UnityAdsShowListener] = [:]
     let binaryMessenger: FlutterBinaryMessenger
-    
+
     init(binaryMessenger: FlutterBinaryMessenger) {
         self.binaryMessenger = binaryMessenger
         self.placementChannels = [String: FlutterMethodChannel]()
+    }
+
+    func getOrCreateLoadListener(placementId: String) -> UnityAdsLoadListener {
+        if let listener = loadListeners[placementId] {
+            return listener
+        }
+        let listener = UnityAdsLoadListener(placementChannelManager: self)
+        loadListeners[placementId] = listener
+        return listener
+    }
+
+    func getOrCreateShowListener(placementId: String) -> UnityAdsShowListener {
+        if let listener = showListeners[placementId] {
+            return listener
+        }
+        let listener = UnityAdsShowListener(placementChannelManager: self)
+        showListeners[placementId] = listener
+        return listener
     }
 
     public func invokeMethod(_ methodName: String, _ placementId: String) {
