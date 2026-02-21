@@ -26,11 +26,14 @@ class UnityAds {
     Map<String, dynamic> arguments = {
       gameIdParameter: gameId,
       testModeParameter: testMode,
-      firebaseTestLabModeParameter:
-          firebaseTestLabMode.toString().split('.').last,
+      firebaseTestLabModeParameter: firebaseTestLabMode
+          .toString()
+          .split('.')
+          .last,
     };
     _channel.setMethodCallHandler(
-        (call) => _initMethodCall(call, onComplete, onFailed));
+      (call) => _initMethodCall(call, onComplete, onFailed),
+    );
     await _channel.invokeMethod(initMethod, arguments);
   }
 
@@ -45,18 +48,21 @@ class UnityAds {
         break;
       case initFailedMethod:
         onFailed?.call(
-            _initializationErrorFromString(call.arguments[errorCodeParameter]),
-            call.arguments[errorMessageParameter]);
+          _initializationErrorFromString(call.arguments[errorCodeParameter]),
+          call.arguments[errorMessageParameter],
+        );
         break;
     }
     return Future.value(true);
   }
 
   static UnityAdsInitializationError _initializationErrorFromString(
-      String error) {
+    String error,
+  ) {
     return UnityAdsInitializationError.values.firstWhere(
-        (e) => error == e.toString().split('.').last,
-        orElse: () => UnityAdsInitializationError.unknown);
+      (e) => error == e.toString().split('.').last,
+      orElse: () => UnityAdsInitializationError.unknown,
+    );
   }
 
   /// Load a placement to make it available to show. Ads generally take a few seconds to finish loading before they can be shown.
@@ -68,18 +74,13 @@ class UnityAds {
     required String placementId,
     Function(String placementId)? onComplete,
     Function(String placementId, UnityAdsLoadError error, String errorMessage)?
-        onFailed,
+    onFailed,
   }) async {
     _adChannels
         .putIfAbsent(placementId, () => _AdMethodChannel(placementId))
-        .update(
-          onLoadComplete: onComplete,
-          onLoadFailed: onFailed,
-        );
+        .update(onLoadComplete: onComplete, onLoadFailed: onFailed);
 
-    final arguments = <String, dynamic>{
-      placementIdParameter: placementId,
-    };
+    final arguments = <String, dynamic>{placementIdParameter: placementId};
     await _channel.invokeMethod(loadMethod, arguments);
   }
 
@@ -100,7 +101,7 @@ class UnityAds {
     Function(String placementId)? onClick,
     Function(String placementId)? onComplete,
     Function(String placementId, UnityAdsShowError error, String errorMessage)?
-        onFailed,
+    onFailed,
   }) async {
     _adChannels
         .putIfAbsent(placementId, () => _AdMethodChannel(placementId))
@@ -132,7 +133,10 @@ class UnityAds {
   ) async {
     final args = <String, dynamic>{
       privacyConsentValueParameter: value,
-      privacyConsentTypeParameter: privacyConsentType.toString().split('.').last
+      privacyConsentTypeParameter: privacyConsentType
+          .toString()
+          .split('.')
+          .last,
     };
     return await _channel.invokeMethod(privacyConsentSetMethod, args);
   }
@@ -166,7 +170,7 @@ enum UnityAdsInitializationError {
   adBlockerDetected,
 
   /// Unknown error
-  unknown
+  unknown,
 }
 
 /// Error category of load errors
@@ -187,7 +191,7 @@ enum UnityAdsLoadError {
   timeout,
 
   /// Unknown error
-  unknown
+  unknown,
 }
 
 /// The error category of show errors
@@ -217,36 +221,36 @@ enum UnityAdsShowError {
   timeout,
 
   /// Unknown error
-  unknown
+  unknown,
 }
 
 class _AdMethodChannel {
   final MethodChannel channel;
   Function(String placementId)? onLoadComplete;
   Function(String placementId, UnityAdsLoadError error, String errorMessage)?
-      onLoadFailed;
+  onLoadFailed;
   Function(String placementId)? onAdStart;
   Function(String placementId)? onAdClick;
   Function(String placementId)? onAdComplete;
   Function(String placementId)? onAdSkipped;
   Function(String placementId, UnityAdsShowError error, String errorMessage)?
-      onShowFailed;
+  onShowFailed;
 
   _AdMethodChannel(String placementId)
-      : channel = MethodChannel('${videoAdChannel}_$placementId') {
+    : channel = MethodChannel('${videoAdChannel}_$placementId') {
     channel.setMethodCallHandler(_methodCallHandler);
   }
 
   void update({
     Function(String adUnitId)? onLoadComplete,
     Function(String adUnitId, UnityAdsLoadError error, String errorMessage)?
-        onLoadFailed,
+    onLoadFailed,
     Function(String adUnitId)? onAdStart,
     Function(String adUnitId)? onAdClick,
     Function(String placementId)? onAdComplete,
     Function(String placementId)? onAdSkipped,
     Function(String adUnitId, UnityAdsShowError error, String errorMessage)?
-        onShowFailed,
+    onShowFailed,
   }) {
     this.onLoadComplete = onLoadComplete ?? this.onLoadComplete;
     this.onLoadFailed = onLoadFailed ?? this.onLoadFailed;
@@ -293,13 +297,15 @@ class _AdMethodChannel {
 
   UnityAdsLoadError _loadErrorFromString(String error) {
     return UnityAdsLoadError.values.firstWhere(
-        (e) => error == e.toString().split('.').last,
-        orElse: () => UnityAdsLoadError.unknown);
+      (e) => error == e.toString().split('.').last,
+      orElse: () => UnityAdsLoadError.unknown,
+    );
   }
 
   UnityAdsShowError _showErrorFromString(String error) {
     return UnityAdsShowError.values.firstWhere(
-        (e) => error == e.toString().split('.').last,
-        orElse: () => UnityAdsShowError.unknown);
+      (e) => error == e.toString().split('.').last,
+      orElse: () => UnityAdsShowError.unknown,
+    );
   }
 }

@@ -22,8 +22,11 @@ class UnityBannerAd extends StatefulWidget {
 
   /// Called when unity ads banner encounters an error.
   final void Function(
-          String placementId, UnityAdsBannerError error, String errorMessage)?
-      onFailed;
+    String placementId,
+    UnityAdsBannerError error,
+    String errorMessage,
+  )?
+  onFailed;
 
   /// This widget is used to contain Banner Ads.
   const UnityBannerAd({
@@ -121,8 +124,9 @@ class UnityBannerAdState extends State<UnityBannerAd> {
 
   static UnityAdsBannerError _bannerErrorFromString(String error) {
     return UnityAdsBannerError.values.firstWhere(
-        (e) => error == e.toString().split('.').last,
-        orElse: () => UnityAdsBannerError.unknown);
+      (e) => error == e.toString().split('.').last,
+      orElse: () => UnityAdsBannerError.unknown,
+    );
   }
 }
 
@@ -157,5 +161,5 @@ enum UnityAdsBannerError {
   noFill,
 
   /// Unknown error
-  unknown
+  unknown,
 }

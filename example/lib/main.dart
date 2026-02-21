@@ -15,12 +15,8 @@ class UnityAdsExampleApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Unity Ads Example',
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Unity Ads Example'),
-        ),
-        body: const SafeArea(
-          child: _UnityAdsExample(),
-        ),
+        appBar: AppBar(title: const Text('Unity Ads Example')),
+        body: const SafeArea(child: _UnityAdsExample()),
       ),
     );
   }
@@ -77,16 +73,15 @@ class _UnityAdsExampleState extends State<_UnityAdsExample> {
               ElevatedButton(
                 onPressed:
                     placements[AdManager.rewardedVideoAdPlacementId] == true
-                        ? () => _showAd(AdManager.rewardedVideoAdPlacementId)
-                        : null,
+                    ? () => _showAd(AdManager.rewardedVideoAdPlacementId)
+                    : null,
                 child: const Text('Show Rewarded Video'),
               ),
               ElevatedButton(
                 onPressed:
                     placements[AdManager.interstitialVideoAdPlacementId] == true
-                        ? () =>
-                            _showAd(AdManager.interstitialVideoAdPlacementId)
-                        : null,
+                    ? () => _showAd(AdManager.interstitialVideoAdPlacementId)
+                    : null,
                 child: const Text('Show Interstitial Video'),
               ),
             ],
