@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a Flutter plugin (`unity_ads_plugin`) that wraps the native Unity Ads SDK for iOS and Android. Published on pub.dev, it supports Banner, Rewarded, and Interstitial Video Ads with privacy consent management (GDPR, CCPA, PIPL, Age Gate).
 
-Current versions: Plugin `0.3.29`, Unity Ads SDK `4.16.6` (both platforms).
+Current versions: Plugin `0.3.30`, Unity Ads SDK `4.17.0` (both platforms).
 
 ## Common Commands
 
@@ -66,7 +66,7 @@ Swift implementation. Key classes mirror the Android structure:
 - `PlacementChannelManager.swift` — Per-placement channel management
 - `BannerAdFactory.swift` + `BannerAdView.swift` — Platform view factory
 
-Platform minimum: iOS 8.0. Unity Ads pulled via CocoaPods (`pod 'UnityAds', '4.16.6'`).
+Platform minimum: iOS 8.0. Unity Ads pulled via CocoaPods (`pod 'UnityAds', '4.17.0'`).
 
 ## SDK Version Updates
 

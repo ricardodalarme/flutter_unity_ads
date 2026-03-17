@@ -25,8 +25,7 @@ class UnityBannerAd extends StatefulWidget {
     String placementId,
     UnityAdsBannerError error,
     String errorMessage,
-  )?
-  onFailed;
+  )? onFailed;
 
   /// This widget is used to contain Banner Ads.
   const UnityBannerAd({

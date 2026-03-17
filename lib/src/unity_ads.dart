@@ -26,10 +26,8 @@ class UnityAds {
     Map<String, dynamic> arguments = {
       gameIdParameter: gameId,
       testModeParameter: testMode,
-      firebaseTestLabModeParameter: firebaseTestLabMode
-          .toString()
-          .split('.')
-          .last,
+      firebaseTestLabModeParameter:
+          firebaseTestLabMode.toString().split('.').last,
     };
     _channel.setMethodCallHandler(
       (call) => _initMethodCall(call, onComplete, onFailed),
@@ -74,7 +72,7 @@ class UnityAds {
     required String placementId,
     Function(String placementId)? onComplete,
     Function(String placementId, UnityAdsLoadError error, String errorMessage)?
-    onFailed,
+        onFailed,
   }) async {
     _adChannels
         .putIfAbsent(placementId, () => _AdMethodChannel(placementId))
@@ -101,7 +99,7 @@ class UnityAds {
     Function(String placementId)? onClick,
     Function(String placementId)? onComplete,
     Function(String placementId, UnityAdsShowError error, String errorMessage)?
-    onFailed,
+        onFailed,
   }) async {
     _adChannels
         .putIfAbsent(placementId, () => _AdMethodChannel(placementId))
@@ -133,10 +131,8 @@ class UnityAds {
   ) async {
     final args = <String, dynamic>{
       privacyConsentValueParameter: value,
-      privacyConsentTypeParameter: privacyConsentType
-          .toString()
-          .split('.')
-          .last,
+      privacyConsentTypeParameter:
+          privacyConsentType.toString().split('.').last,
     };
     return await _channel.invokeMethod(privacyConsentSetMethod, args);
   }
@@ -228,29 +224,29 @@ class _AdMethodChannel {
   final MethodChannel channel;
   Function(String placementId)? onLoadComplete;
   Function(String placementId, UnityAdsLoadError error, String errorMessage)?
-  onLoadFailed;
+      onLoadFailed;
   Function(String placementId)? onAdStart;
   Function(String placementId)? onAdClick;
   Function(String placementId)? onAdComplete;
   Function(String placementId)? onAdSkipped;
   Function(String placementId, UnityAdsShowError error, String errorMessage)?
-  onShowFailed;
+      onShowFailed;
 
   _AdMethodChannel(String placementId)
-    : channel = MethodChannel('${videoAdChannel}_$placementId') {
+      : channel = MethodChannel('${videoAdChannel}_$placementId') {
     channel.setMethodCallHandler(_methodCallHandler);
   }
 
   void update({
     Function(String adUnitId)? onLoadComplete,
     Function(String adUnitId, UnityAdsLoadError error, String errorMessage)?
-    onLoadFailed,
+        onLoadFailed,
     Function(String adUnitId)? onAdStart,
     Function(String adUnitId)? onAdClick,
     Function(String placementId)? onAdComplete,
     Function(String placementId)? onAdSkipped,
     Function(String adUnitId, UnityAdsShowError error, String errorMessage)?
-    onShowFailed,
+        onShowFailed,
   }) {
     this.onLoadComplete = onLoadComplete ?? this.onLoadComplete;
     this.onLoadFailed = onLoadFailed ?? this.onLoadFailed;
