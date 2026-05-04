@@ -2,6 +2,7 @@ import Flutter
 import UIKit
 import UnityAds
 
+@objc(UnityAdsPlugin)
 public class SwiftUnityAdsPlugin: NSObject, FlutterPlugin {
     
    
